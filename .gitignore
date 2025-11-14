@@ -1,0 +1,34 @@
+# Build artifacts
+/build/
+*.o
+*.so
+
+# Python virtualenv
+my_env/
+venv/
+.env/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+
+# pytest/cache
+.pytest_cache/
+
+# Editor/OS files
+.vscode/
+.DS_Store
+
+# Reports and logs
+report.html
+*.log
+
+# Packaging
+*.egg-info/
+pip-wheel-metadata/
+
+# Misc
+.coverage
+.cache/
+.mypy_cache/

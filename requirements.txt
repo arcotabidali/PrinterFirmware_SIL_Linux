@@ -1,0 +1,12 @@
+# Core testing framework
+pytest>=8.0.0
+pytest-html>=4.1.1
+
+# Numerical + scientific tools
+numpy>=1.26.0
+
+# Optional: plotting (for report graphs, trend analysis)
+matplotlib>=3.9.0
+
+# Optional: structured data handling if you extend tests later
+pandas>=2.2.0
