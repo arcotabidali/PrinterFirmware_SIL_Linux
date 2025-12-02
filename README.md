@@ -3,32 +3,34 @@
 
 ---
 
-## 📖 Overview
+## Overview
 
 This project demonstrates how to compile an **entire STM32 firmware application** into a **Linux shared object (`.so`)** and test it in a **Software-in-the-Loop (SIL)** environment using **Python, pytest, and lightweight plant models**.
 
-It mirrors how real QA teams validate embedded firmware (e.g., in printers, energy systems, or robotics) — before flashing hardware.
+It mirrors how real QA teams validate embedded firmware (e.g., in printers, energy systems, or robotics) before flashing hardware.
 
 ---
 
-## ⚙️ Project Architecture
+## Project Architecture
 
 ```
-Python Test Harness (pytest, numpy, matplotlib)
-          │
-          ▼
 libprinter_firmware.so (all STM32 firmware compiled for Linux)
 + HAL stubs (GPIO, ADC, Delay)
           │
           ▼
 Simulated Plant Models (motor load, heater ambient, etc.)
+          │
+          ▼
+Python Test Harness (pytest, numpy, matplotlib)
 ```
 
 Each test drives the firmware through exported C APIs (via `ctypes`), feeds in simulated inputs, executes multiple scheduler “steps,” and verifies that system behavior (RPM, temperature, etc.) matches expectations.
 
+![architecture diagram](docs/architecture.png)
+
 ---
 
-## 🧱 Folder Structure
+## Folder Structure
 
 ```
 PrinterFirmware_SIL_Linux/
@@ -67,23 +69,20 @@ PrinterFirmware_SIL_Linux/
 
 ---
 
-## 🧰 Toolchain and Dependencies
+## Toolchain and Dependencies
 
-### 🔧 Build Tools
+### Build Tools
 | Tool | Purpose |
 |------|----------|
 | **gcc** | Compiles firmware C code for host (Linux x86_64). |
 | **make** | Automates build (creates `build/libprinter_firmware.so`). |
 | **ctypes (Python stdlib)** | Loads and calls functions from `.so`. |
 
-### 🐍 Python Packages (from `requirements.txt`)
+### Python Packages (from `requirements.txt`)
 | Package | Purpose |
 |----------|----------|
 | **pytest** | Core test framework for SIL regression. |
 | **pytest-html** | Generates HTML test reports for QA. |
-| **numpy** | Math utilities for plant simulation and numeric checks. |
-| **matplotlib** | (Optional) Plot trends such as temperature vs. time. |
-| **pandas** | (Optional) Structured test data / CSV handling. |
 
 Install all packages:
 ```bash
@@ -94,7 +93,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🏗️ Building the Firmware for Host (SIL Mode)
+## Building the Firmware for Host (SIL Mode)
 
 Run:
 ```bash
@@ -110,7 +109,7 @@ This `.so` contains the *entire firmware image* (minus hardware drivers), now ca
 
 ---
 
-## 🧪 Running SIL Tests
+## Running SIL Tests
 
 Run:
 ```bash
@@ -128,9 +127,14 @@ Outputs:
 - `report.html` — summary of test results  
 - (optional) plots or logs saved to `reports/`
 
+Screenshot:
+
+![command line output](docs/run-tests.png)
+![HTML report sample](docs/report.png)
+
 ---
 
-## 🧩 How It Works (Execution Flow)
+## How It Works (Execution Flow)
 
 1. **Python test** loads the `.so`:
    ```python
@@ -150,7 +154,7 @@ Outputs:
 
 ---
 
-## 🧠 Extending the Framework
+## Extending the Framework
 
 | Goal | How |
 |------|-----|
@@ -162,7 +166,7 @@ Outputs:
 
 ---
 
-## 🚀 Continuous Integration Example
+## Continuous Integration Example
 
 Typical Jenkins pipeline snippet:
 ```groovy
@@ -177,7 +181,7 @@ stage('SIL Build & Test') {
 
 ---
 
-## 🧾 Credits
+## Credits
 
 Created as a **reference implementation for Firmware QA Engineers** automating SIL verification of STM32 embedded systems using open-source tools.  
 Tested on Ubuntu 22.04 LTS with GCC 11 and Python 3.12.
